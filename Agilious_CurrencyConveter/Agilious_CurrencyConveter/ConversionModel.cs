@@ -40,6 +40,8 @@ namespace Agilious_CurrencyConveter
             public int NOK { get; set; } // Norway_Europe
             public int NZD { get; set; } // New Zealand_Austrailia_Asia
             public int AUD { get; set; } // Austrailia
+
+            //Hello
         }
 
         public DateTime date { get; set; }
