@@ -11,28 +11,50 @@
         <div>
             <asp:Label ID="lblHeader" runat="server" Text="Currency Converter" Font-Bold="True"></asp:Label>
             <br />
-            Please enter the USD(U.S Dollar) Amount:<br />
-            <asp:TextBox ID="txtUSD" runat="server"></asp:TextBox>
-            <asp:Button ID="btnConvert" runat="server" OnClick="btnConvert_Click" Text="Convert USD to CAD" />
+            <asp:TextBox ID="txtCurrencyInput" runat="server"></asp:TextBox>
+            <br />
+            Convert
+        <asp:DropDownList ID="baseCountryList" runat="server">
+            <asp:ListItem Text="Select a Country" Value="" />
+            <asp:ListItem Text="USD - US Dollar" Value="USD" />
+            <asp:ListItem Text="GBP - British Pound" Value="GBP" />
+            <asp:ListItem Text="CAD - Canadian Dollar" Value="CAD" />
+            <asp:ListItem Text="CNY - Chinese Yuan" Value="CNY" />
+            <asp:ListItem Text="MXN - Mexican Peso" Value="MXN" />
+            <asp:ListItem Text="EUR - Euro" Value="EUR" />
+
+        </asp:DropDownList>
+
+        &nbsp;to
+
+        <asp:DropDownList ID="convertedCountryList" runat="server" style="margin-bottom: 0px">
+            <asp:ListItem Text="Select a Country" Value="" />
+            <asp:ListItem Text="USD - US Dollar" Value="USD" />
+            <asp:ListItem Text="GBP - British Pound" Value="GBP" />
+            <asp:ListItem Text="CAD - Canadian Dollar" Value="CAD" />
+            <asp:ListItem Text="CNY - Chinese Yuan" Value="CNY" />
+            <asp:ListItem Text="MXN - Mexican Peso" Value="MXN" />
+            <asp:ListItem Text="EUR - Euro" Value="EUR" />
+
+        </asp:DropDownList>
+            <br />
+            <asp:TextBox ID="txtCurrencyOutput" runat="server" ReadOnly="True"></asp:TextBox>
+            <br />
+            <asp:Button ID="btnConvert" runat="server" OnClick="btnConvert_Click" Text="Convert!" />
             <asp:Button ID="btnReset" runat="server" OnClick="btnReset_Click" Text="Reset" />
             <br />
             <br />
-            <asp:Label ID="lblXChangeText" runat="server" Text="The current Canadian exchange rate is:"></asp:Label>
-            <br />
-            <asp:Label ID="lblXChangeRateValue" runat="server" Text="Label"></asp:Label>
             <br />
             <br />
-            <asp:Label ID="lblCanadaCurrencyText" runat="server" Text="Your total Canadaian currency is:"></asp:Label>
 &nbsp;<br />
-            <asp:Label ID="lblCanadianCurrencyValue" runat="server" Text="Label"></asp:Label>
             <br />
             <br />
-            <asp:Label ID="lblDate" runat="server" Text="Label"></asp:Label>
             <br />
-            <asp:TextBox ID="txtGBRRate" runat="server"></asp:TextBox>
         </div>
-        <asp:TextBox ID="txtGBR" runat="server"></asp:TextBox>
         <br />
+        <br />
+        <br />
+
     </form>
 </body>
 </html>

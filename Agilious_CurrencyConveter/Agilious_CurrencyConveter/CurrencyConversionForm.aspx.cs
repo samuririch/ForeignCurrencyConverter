@@ -17,7 +17,14 @@ namespace Agilious_CurrencyConveter
 
         public static string dataResults;
         public static double convertedValue;
-        public static double GBR_Rate;
+        public static double GBR_Rate; //Great Britain
+        public static double CNY_Rate; //China
+        public static double MXN_Rate; //Mexico
+        public static double EUR_Rate; //Euros
+        public static double CAD_Rate; //Canada
+        public static string baseCountry;
+        public static double conversionRate;
+        
 
         public class CountryRate
         {
@@ -26,47 +33,36 @@ namespace Agilious_CurrencyConveter
                 JObject jObject = JObject.Parse(json);
                 JToken jRate = jObject["rates"];
                 GBP = (double)jRate["GBP"];
+                CNY = (double)jRate["CNY"];
+                MXN = (double)jRate["MXN"];
+                EUR = (double)jRate["EUR"];
+                CAD = (double)jRate["CAD"];
 
             }
             public double GBP { get; set; }
+            public double CNY { get; set; }
+            public double MXN { get; set; }
+            public double EUR { get; set; }
+            public double CAD { get; set; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            getAPIData();
-            lblXChangeRateValue.Visible = false;
-            lblCanadianCurrencyValue.Visible = false;
-            lblCanadaCurrencyText.Visible = false;
-            lblXChangeText.Visible = false;
-            btnConvert.Enabled = true;
-            lblDate.Visible = false;
-
 
         }
 
         protected void btnConvert_Click(object sender, EventArgs e)
         {
-            if(txtUSD.Text != "")
-            {
-                deserialize(dataResults);
+                getAPIData();
                 convertCurrency();
-                lblXChangeRateValue.Visible = true;
-                lblCanadianCurrencyValue.Visible = true;
-                lblCanadaCurrencyText.Visible = true;
-                lblXChangeText.Visible = true;
-                btnConvert.Enabled = false;
-                lblDate.Visible = true;
-            }
-            else
-            {
-                Label lblError = new Label();
-                lblError.Text = "Input cannot be blank";
-            }
+
          }
 
-        public static void getAPIData()
+        protected void getAPIData()
         {
-            string apiURL = String.Format("https://api.exchangeratesapi.io/latest?base=USD");
+            baseCountry = baseCountryList.SelectedItem.Value;
+            string selectedCountry = baseCountry;
+            string apiURL = String.Format("https://api.exchangeratesapi.io/latest?base=" + selectedCountry);
             WebRequest getRequest = WebRequest.Create(apiURL);
             getRequest.Method = "GET";
             HttpWebResponse getResponse = null;
@@ -86,35 +82,47 @@ namespace Agilious_CurrencyConveter
             CountryRate cRate = new CountryRate(dataResults);
 
             GBR_Rate = cRate.GBP;
+            CNY_Rate = cRate.CNY;
+            MXN_Rate = cRate.MXN;
+            EUR_Rate = cRate.EUR;
+            CAD_Rate = cRate.CAD;
+
 
         }
 
 
-        private void deserialize(string string_json)
+        public void convertCurrency()
         {
-            var JString = JsonConvert.DeserializeObject<dynamic>(string_json);
-            convertedValue = JString.rates.CAD;
+            double currencyValue = Convert.ToDouble(txtCurrencyInput.Text);
+            //double conversionRate;
+            double foreignCurrencyValue;
+            double roundedValue;
+            if (convertedCountryList.SelectedItem.Value == "GBR")
+            {
+                conversionRate = GBR_Rate;
+            }
+            else if (convertedCountryList.SelectedItem.Value == "CNY")
+            {
+                conversionRate = CNY_Rate;
+            }
+            else if (convertedCountryList.SelectedItem.Value == "MXN")
+            {
+                conversionRate = MXN_Rate;
+            }
+            else if (convertedCountryList.SelectedItem.Value == "EUR")
+            {
+                conversionRate = EUR_Rate;
+            }
+            else if(convertedCountryList.SelectedItem.Value == "CAD")
+            {
+                conversionRate = CAD_Rate;
+            }
 
-
-
-            
-
-            string dateStamp = JString.date;
-            lblXChangeRateValue.Text = convertedValue.ToString();
-            lblDate.Text = "Exchange Rate data accurate as of: " + dateStamp;
-        }
-
-        private void convertCurrency()
-        {
-            double currencyValue = Convert.ToDouble(txtUSD.Text);
-            double greatBritainCurrency = currencyValue * GBR_Rate;
-            double currentExchangeRate = convertedValue;
-            double foreignCurrencyValue = currencyValue * currentExchangeRate;
-            double roundedValue = Math.Ceiling(foreignCurrencyValue * 100) / 100;
+            foreignCurrencyValue = currencyValue * conversionRate;
+            roundedValue = Math.Ceiling(foreignCurrencyValue * 100) / 100;
             string roundedFormattedString = String.Format("{0:0.00}", roundedValue);
-            lblCanadianCurrencyValue.Text = "$" + roundedFormattedString;
-            txtGBRRate.Text = GBR_Rate.ToString();
-            txtGBR.Text = greatBritainCurrency.ToString();
+            txtCurrencyOutput.Text = roundedFormattedString;
+
         }
 
         protected void btnReset_Click(object sender, EventArgs e)

@@ -41,7 +41,7 @@ namespace Agilious_CurrencyConveter
             public int NZD { get; set; } // New Zealand_Austrailia_Asia
             public int AUD { get; set; } // Austrailia
 
-            //Hello
+            
         }
 
         public DateTime date { get; set; }
