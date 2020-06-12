@@ -17,6 +17,7 @@ namespace Agilious_CurrencyConveter
 
         public static string dataResults;
         public static double convertedValue;
+        public static double USD_Rate; //US
         public static double GBR_Rate; //Great Britain
         public static double CNY_Rate; //China
         public static double MXN_Rate; //Mexico
@@ -32,6 +33,7 @@ namespace Agilious_CurrencyConveter
             {
                 JObject jObject = JObject.Parse(json);
                 JToken jRate = jObject["rates"];
+                USD = (double)jRate["USD"];
                 GBP = (double)jRate["GBP"];
                 CNY = (double)jRate["CNY"];
                 MXN = (double)jRate["MXN"];
@@ -39,6 +41,7 @@ namespace Agilious_CurrencyConveter
                 CAD = (double)jRate["CAD"];
 
             }
+            public double USD { get; set; }
             public double GBP { get; set; }
             public double CNY { get; set; }
             public double MXN { get; set; }
@@ -53,8 +56,30 @@ namespace Agilious_CurrencyConveter
 
         protected void btnConvert_Click(object sender, EventArgs e)
         {
-                getAPIData();
-                convertCurrency();
+          if(txtCurrencyInput.Text != "")
+            {
+                lblNoInput.Visible = false;
+                if (baseCountryList.SelectedItem.Value != "" && convertedCountryList.SelectedItem.Value != "")
+                {
+                    lblNotSelected.Visible = false;
+                    getAPIData();
+                    convertCurrency();
+                }
+                else
+                {
+                    lblNotSelected.Visible = true;
+                    lblNotSelected.Text = "Please make both conversion selections!";
+                    lblNotSelected.ForeColor = System.Drawing.Color.Red;
+                }
+            }
+          else
+            {
+                lblNoInput.Visible = true;
+                lblNoInput.Text = "Please provide currency input for conversion";
+                lblNoInput.ForeColor = System.Drawing.Color.Red;
+            }
+
+
 
          }
 
@@ -81,6 +106,7 @@ namespace Agilious_CurrencyConveter
 
             CountryRate cRate = new CountryRate(dataResults);
 
+            USD_Rate = cRate.USD;
             GBR_Rate = cRate.GBP;
             CNY_Rate = cRate.CNY;
             MXN_Rate = cRate.MXN;
@@ -101,6 +127,10 @@ namespace Agilious_CurrencyConveter
             {
                 conversionRate = GBR_Rate;
             }
+            else if (convertedCountryList.SelectedItem.Value == "USD")
+            {
+                conversionRate = USD_Rate;
+            }
             else if (convertedCountryList.SelectedItem.Value == "CNY")
             {
                 conversionRate = CNY_Rate;
@@ -118,10 +148,12 @@ namespace Agilious_CurrencyConveter
                 conversionRate = CAD_Rate;
             }
 
+
             foreignCurrencyValue = currencyValue * conversionRate;
-            roundedValue = Math.Ceiling(foreignCurrencyValue * 100) / 100;
+            roundedValue = Math.Round(foreignCurrencyValue * 100) / 100;
             string roundedFormattedString = String.Format("{0:0.00}", roundedValue);
-            txtCurrencyOutput.Text = roundedFormattedString;
+            lblCurrencyOutput.Visible = true;
+            lblCurrencyOutput.Text = roundedFormattedString;
 
         }
 

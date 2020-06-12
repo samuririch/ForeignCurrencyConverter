@@ -60,13 +60,13 @@ namespace Agilious_CurrencyConveter
         protected global::System.Web.UI.WebControls.DropDownList convertedCountryList;
 
         /// <summary>
-        /// txtCurrencyOutput control.
+        /// lblCurrencyOutput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCurrencyOutput;
+        protected global::System.Web.UI.WebControls.Label lblCurrencyOutput;
 
         /// <summary>
         /// btnConvert control.
@@ -85,5 +85,23 @@ namespace Agilious_CurrencyConveter
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnReset;
+
+        /// <summary>
+        /// lblNotSelected control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNotSelected;
+
+        /// <summary>
+        /// lblNoInput control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNoInput;
     }
 }
